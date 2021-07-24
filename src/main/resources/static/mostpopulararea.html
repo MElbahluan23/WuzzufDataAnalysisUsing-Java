@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Wuzzuf Data Analysis</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <h2>Jobs per Area</h2>
+    <table class="table table-striped table-hover" id="myTable">
+        <thead style="background-color:#0046B2;color:white">
+        <tr>
+            <th>Area</th>
+            <th>Jobs</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+
+<script>
+var xmlhttp = new XMLHttpRequest();
+var url = "/mostpopularareas";
+
+xmlhttp.onreadystatechange = function() {
+  if (this.readyState == 4 && this.status == 200) {
+    var obj = JSON.parse(this.responseText);
+    myFunction(obj);
+  }
+};
+xmlhttp.open("GET", url, true);
+xmlhttp.send();
+
+function myFunction(obj) {
+ var table = document.getElementById("myTable").getElementsByTagName('tbody')[0];
+  for (let key in obj) {
+           var row = table.insertRow();
+           var cell1 = row.insertCell(0);
+           var cell2 = row.insertCell(1);
+           cell1.innerHTML = key;
+           cell2.innerHTML = obj[key];
+   }
+}
+</script>
+</body>
+</html>

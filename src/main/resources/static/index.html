@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Wuzzuf Data Analysis</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="jumbotron text-center" >
+    <h1 style="color:#0046B2;max-height:30px">Wuzzuf Data Analysis</h1>
+</div>
+
+<div class="container">
+    <div class="row" style="margin-bottom: 20px">
+        <div class="col-sm-6" >
+            <a href="read.html" style="background-color:#0046B2" type="button" class="btn btn-primary btn-lg btn-block">Read dataset and display some from it</a>
+        </div>
+        <div class="col-sm-6" >
+            <a href="summary.html" style="background-color:#0046B2" type="button" class="btn btn-primary btn-lg btn-block">Display structure and summary of the data</a>
+        </div>
+    </div>
+    <div class="row" style="margin-bottom: 20px">
+        <div class="col-sm-12">
+            <a href="cleandata.html" style="background-color:#0046B2" type="button" class="btn btn-primary btn-lg btn-block">Clean the data & Factorize the YearsExp feature and convert it to numbers in new col (Bounce)</a>
+        </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 20px">
+        <div class="col-sm-6" >
+            <a href="mostjobscompany.html" style="background-color:#0046B2" type="button" class="btn btn-primary btn-lg btn-block">Count the jobs for each company and display that in order</a>
+        </div>
+        <div class="col-sm-6" >
+            <a href="jobspercompanychart.html" style="background-color:#247854" type="button" class="btn btn-primary btn-lg btn-block">Pie chart for jobs for each company</a>
+        </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 20px">
+        <div class="col-sm-6" >
+            <a href="popularjobtitle.html" style="background-color:#0046B2" type="button" class="btn btn-primary btn-lg btn-block">Find out What are it the most popular job titles</a>
+        </div>
+        <div class="col-sm-6" >
+            <a href="populartitlechart.html" style="background-color:#247854" type="button" class="btn btn-primary btn-lg btn-block">Bar chart for the most popular job titles</a>
+        </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 20px">
+        <div class="col-sm-6" >
+            <a href="mostpopulararea.html" style="background-color:#0046B2" type="button" class="btn btn-primary btn-lg btn-block">Find out the most popular areas</a>
+        </div>
+        <div class="col-sm-6" >
+            <a href="popularareachart.html" style="background-color:#247854" type="button" class="btn btn-primary btn-lg btn-block">Bar Chart for the most popular areas</a>
+        </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 20px">
+        <div class="col-sm-12">
+            <a href="importantskills.html" style="background-color:#0046B2" type="button" class="btn btn-primary btn-lg btn-block">Print skills one by one and how many each repeated and order the output to find out the most important skills required</a>
+        </div>
+    </div>
+
+    <script>
+        function isNumeric(num){
+            return !isNaN(num)
+        }
+        function validateForm() {
+            let x = document.forms["myForm"]["num"].value;
+            if (isNumeric(x)) {
+                if(parseInt(x) < 10)
+                    return true;
+                alert("Enter a number less than 10");
+                return false;
+            }
+            alert("Enter a number");
+            return false;
+       }
+    </script>
+    <div class="row" style="margin-bottom: 20px">
+        <form name="myForm" action="kmeans.html" method="get" onsubmit="return validateForm()">
+        <div class="col-sm-6" >
+            <button style="background-color:#0046B2" type="submit" class="btn btn-primary btn-lg btn-block">Apply K-means for job title and companies (Bounce)</button>
+        </div>
+        <div class="col-sm-6" >
+            <input name="num" style="height:45px" class="form-control form-control-lg" type="text" placeholder="Enter Number of clusters" required>
+        </div>
+        </form>
+    </div>
+
+</div>
+
+</body>
+</html>

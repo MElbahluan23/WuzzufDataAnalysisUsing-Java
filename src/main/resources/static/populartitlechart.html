@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Wuzzuf Data Analysis</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+    <script src="https://d3js.org/d3-color.v1.min.js"></script>
+    <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <h2>Popular Job titles Chart For Top 50 Jobs</h2>
+    <canvas id="pie-chart" width="800" height="450"></canvas>
+</div>
+
+<script>
+function calculatePoint(i, intervalSize, colorRangeInfo) {
+  var { colorStart, colorEnd, useEndAsStart } = colorRangeInfo;
+  return (useEndAsStart
+    ? (colorEnd - (i * intervalSize))
+    : (colorStart + (i * intervalSize)));
+}
+function interpolateColors(dataLength, colorScale, colorRangeInfo) {
+  var { colorStart, colorEnd } = colorRangeInfo;
+  var colorRange = colorEnd - colorStart;
+  var intervalSize = colorRange / dataLength;
+  var i, colorPoint;
+  var colorArray = [];
+
+  for (i = 0; i < dataLength; i++) {
+    colorPoint = calculatePoint(i, intervalSize, colorRangeInfo);
+    colorArray.push(colorScale(colorPoint));
+  }
+
+  return colorArray;
+}
+
+var xmlhttp = new XMLHttpRequest();
+var url = "/mostpopularjob";
+
+xmlhttp.onreadystatechange = function() {
+  if (this.readyState == 4 && this.status == 200) {
+    var obj = JSON.parse(this.responseText);
+    myFunction(obj);
+  }
+};
+xmlhttp.open("GET", url, true);
+xmlhttp.send();
+
+function myFunction(obj) {
+const colorScale = d3.interpolateInferno;
+
+const colorRangeInfo = {
+  colorStart: 0.1,
+  colorEnd: 1,
+  useEndAsStart: false,
+};
+var COLORS = interpolateColors(50, colorScale, colorRangeInfo);
+ new Chart(document.getElementById("pie-chart"), {
+    type: 'bar',
+    data: {
+      labels: Object.keys(obj).slice(0, 50),
+      datasets: [{
+        label: "Jobs",
+        backgroundColor:COLORS,
+        data: Object.values(obj).slice(0, 50)
+      }]
+    },
+    options: {
+      legend: {
+        display: false,
+      },
+      title: {
+        display: true,
+        text: 'Jobs Per Title'
+      }
+
+    }
+});
+
+}
+
+</script>
+</body>
+</html>

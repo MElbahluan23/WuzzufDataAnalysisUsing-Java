@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Wuzzuf Data Analysis</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+</head>
+<body>
+
+<div class="container">
+    <h2>K-means for Title and Company</h2>
+    <canvas id="scatter-chart" width="900" height="600"></canvas>
+</div>
+
+<script>
+var queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const number = urlParams.get('num');
+
+var xmlhttp = new XMLHttpRequest();
+var url = "/kmeans?num="+number;
+
+xmlhttp.onreadystatechange = function() {
+  if (this.readyState == 4 && this.status == 200) {
+    var obj = JSON.parse(this.responseText);
+    myFunction(obj);
+  }
+};
+xmlhttp.open("GET", url, true);
+xmlhttp.send();
+
+function myFunction(obj) {
+colors =  ['#cc1818','#eaff07','#311299','#08931b','#FFC75F','#F9F871','#0081CF','#008F7A','#FBEAFF'];
+const data = {datasets: []};
+var i ;
+for(i = 0;i<number;i++){
+    data.datasets[i] =  {label: 'Class '+(i+1) ,
+    data: obj[i],
+    backgroundColor: colors[i],
+            fill: false,
+            showLine: false
+};
+}
+new Chart(document.getElementById("scatter-chart"), {
+    type: 'scatter',
+    data: data ,
+    options: {
+    elements:{
+    point:{
+        pointStyle:'circle',
+        radius:1
+        }
+    }
+  }
+});
+
+}
+
+</script>
+</body>
+</html>
